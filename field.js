@@ -31,9 +31,17 @@ Field.prototype.setTile = function(x,y,entity) {
 };
 
 //Fetch entity from a tile at position xy
-Field.prototype.getTile = function(x,y,entity) { 
+Field.prototype.getTileEntity = function(x,y,entity) { 
   getTile(x,y).get(entity);
 };
+
+//Move a unit from xy to xy
+Field.prototype.move = function(x1,y1,x2,y2) {
+  initial = getTile(x1,y1);
+  target = getTile(x2,y2);
+
+  if(target.empty) {}
+}
 
 //Fetch row x
 Field.prototype.getRow = function(x) {
@@ -51,6 +59,7 @@ Field.prototype.getColumn = function(y) {
   });
 };
 
+//Return the tiles that can be selected for a particular move type
 Field.prototype.getPossibleMoves = function(x, y, target_type) {
   switch (target_type) {
     case "melee":
@@ -67,8 +76,10 @@ Field.prototype.getPossibleMoves = function(x, y, target_type) {
 
 };
 
+//Field Factory
 fieldFactory = function(options) {
   var field = new Field();
+
   field.initializeField(options.formation, options.terrain);
 
   return field;
