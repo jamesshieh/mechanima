@@ -16,7 +16,7 @@ Field.prototype.initializeField = function(formation, terrain) {
   this.field = new Array(16);
 
   for (i=0; i < 16; i++) {
-    this.field[i] = new tileFactory({ entity:formation[i], tile_sprite: terrain[i] });
+    this.field[i] = tileFactory({ entity:formation[i], tile_sprite: terrain[i] });
   };
 }
 
@@ -40,8 +40,13 @@ Field.prototype.move = function(x1,y1,x2,y2) {
   initial = getTile(x1,y1);
   target = getTile(x2,y2);
 
-  if(target.empty) {}
-}
+  if (target.empty) {
+    target.set(initial.remove);
+  }
+  else {
+    return "Target Occupied";
+  };
+};
 
 //Fetch row x
 Field.prototype.getRow = function(x) {
