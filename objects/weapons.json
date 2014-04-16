@@ -1,0 +1,8 @@
+{
+  "id": "sword",
+  "attack_type": "melee",
+  "damage_min": 5,
+  "damage_max": 8,
+  "damage_type": "physical",
+  "damage_calculation": "normal"
+}
