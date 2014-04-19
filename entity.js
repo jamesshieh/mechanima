@@ -26,14 +26,28 @@ Entity.prototype.initializeEntity = function() {
   this.maxAp = stats.agility * 1.5;
 };
 
+Entity.prototype.applyEquip = function(equip) {
+  for (var i = 0; i < this.baseStats.length; i++) {
+    baseStats[i] += equip.stats[i];
+  };
+};
+
+Entity.prototype.updateStats = function(equip) {
+  for (var i = 0; i < this.equipment.length; i++) {
+    this.applyEquip(equip[i]);
+  };
+};
+
 entityFactory = function(options) {
   var entity = new Entity();
 
   //stats = { strength, dexterity, vitality, intelligence, wisdom, agility }
-  var stats = options.stats;
+  var equipment = {};
+  var baseStats = options.stats;
+  var currentStats = options.stats;
   var ap;
 
-  entity.initializeEntity(options.entity_type);
+  entity.initializeEntity(options);
 
   return entity;
 };
