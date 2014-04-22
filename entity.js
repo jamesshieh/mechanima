@@ -10,7 +10,7 @@ Entity.prototype.heal = function(n) {
 
 Entity.prototype.damage = function(n) {
   this.hp -= n;
-  this.hp <= 0 ? this.death() 
+  return this.hp; 
 };
 
 Entity.prototype.alive = function(n) {
