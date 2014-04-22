@@ -17,13 +17,17 @@ Entity.prototype.alive = function(n) {
   return this.hp > 0 ? true : false;
 };
 
-Entity.prototype.initializeEntity = function() {
-  this.maxHp = stats.vitality * 10;
-  this.maxMp = stats.wisdom * 10;
-  this.hp = this.maxHp, this.mp = this.maxMp;
-  this.critical = (stats.dexterity * 3.5 + stats.agility * 2);
-  this.evasion = (stats.dexterity * 1.5 + stats.agility * 3);
-  this.maxAp = stats.agility * 1.5;
+Entity.prototype.initialize = function() {
+  this.updateStats();
+  this.current_stats = this.base_stats;
+  this.current_stats.ap = 0;
+
+  // this.maxHp = stats.vit * 10;
+  // this.maxMp = stats.int * 10;
+  // this.hp = this.maxHp, this.mp = this.maxMp;
+  // this.critical = (stats.dexterity * 3.5 + stats.agility * 2);
+  // this.evasion = (stats.dexterity * 1.5 + stats.agility * 3);
+  // this.maxAp = stats.agility * 1.5;
 };
 
 Entity.prototype.applyEquip = function(equip) {
@@ -41,13 +45,16 @@ Entity.prototype.updateStats = function(equip) {
 entityFactory = function(options) {
   var entity = new Entity();
 
-  //stats = { strength, dexterity, vitality, intelligence, wisdom, agility }
-  var equipment = {};
-  var baseStats = options.stats;
-  var currentStats = options.stats;
-  var ap;
+  // equipment = {
+  //   weapon: null,
+  //   head: null,
+  //   armor: null
+  // }
+  entity.equipment = options.equipment;
+  entity.base_stats = options.stats;
 
-  entity.initializeEntity(options);
+  entity.initialize(options);
 
   return entity;
 };
+
