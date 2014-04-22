@@ -1,6 +1,54 @@
 fieldFactory = (function() {
-  var spacing = 100;
-  var reverse_offset = 500;
+  var TILE_SPACING = 100;
+  var TILE_SIZE = 90;
+  var REVERSE_OFFSET = 500;
+
+  function Tile() {
+    this.contents = null;
+    this.state = 0;
+  }
+
+  Tile.prototype.activate = function() {
+    console.log("ACTIVATED");
+    this.state = 2;
+  }
+
+  Tile.prototype.highlight = function() {
+    if (this.state < 1) {
+      this.state = 1;
+      return true
+    } else {
+      return false
+    }
+  }
+
+  Tile.prototype.render = function(context, offset_x, offset_y, reverse) {
+    switch(this.state) {
+      case 0: // default state
+        context.rect(offset_x, offset_y, TILE_SIZE, TILE_SIZE);
+        context.stroke();
+        break;
+
+      case 1: // highlighted state
+        context.fillStyle = "#FFFF00";
+        context.fillRect(offset_x, offset_y, TILE_SIZE, TILE_SIZE);
+        break;
+
+      case 2: // activated state
+        context.fillStyle = "#FF0000";
+        context.fillRect(offset_x, offset_y, TILE_SIZE, TILE_SIZE);
+        break;
+
+    }
+  }
+
+  Tile.prototype.clear = function() {
+    this.contents = null;
+  }
+
+  Tile.prototype.reset = function() {
+    this.state = 0;
+  }
 
   function Field() {
     this.tiles = [];
@@ -11,12 +59,12 @@ fieldFactory = (function() {
   Field.prototype.render = function(context, reverse) {
     var offset_x, offset_y;
     for (var i = 0; i < 16; i++) {
-      offset_x = i % 4 * spacing;
-      offset_y = Math.floor(i / 4) * spacing;
+      offset_x = i % 4 * TILE_SPACING;
+      offset_y = Math.floor(i / 4) * TILE_SPACING;
 
       if (reverse) {
         // reverse, then also add spacing to offset for reverse
-        offset_x = reverse_offset + (4 * spacing) - offset_x;
+        offset_x = REVERSE_OFFSET + (4 * TILE_SPACING) - offset_x;
       }
 
       this.tiles[i].render(context, offset_x, offset_y, reverse);
@@ -30,12 +78,12 @@ fieldFactory = (function() {
 
   Field.prototype.getTile = function(position) {
     // skip over cracks inbetween tiles
-    if (Math.floor(position.x % 100) > 90 || Math.floor(position.y % 100) > 90) {
+    if (Math.floor(position.x % TILE_SPACING) > TILE_SIZE || Math.floor(position.y % TILE_SPACING) > TILE_SIZE) {
       return null
     }
 
-    x = parseInt(position.x / 100);
-    y = parseInt(position.y / 100);
+    x = parseInt(position.x / TILE_SPACING);
+    y = parseInt(position.y / TILE_SPACING);
 
     // only check within possible bounds
     if (x > 3 || y > 3) {
@@ -51,111 +99,16 @@ fieldFactory = (function() {
     }
   }
 
-  function fieldFactory(options) {
+  function fieldFactory(reverse) {
     var field = new Field();
 
-    field.reverse = options.reverse;
-    console.log(options.formation[1]);
+    field.reverse = reverse;
     for (var i = 0; i < 16; i++) {
-      field.tiles.push(tileFactory({ entity: options.formation[i], tile_sprite: options.terrain[i] }));
+      field.tiles.push(new Tile());
     }
 
     return field;
   }
 
   return fieldFactory;
-})();
-
-
-
-/* Field Array Setup:
-      T O P
-
-F     C  0  1  2  3
-R   R
-O   0    0  1  2  3
-N   1    4  5  6  7
-T   2    8  9  10 11
-    3    12 13 14 15 
-
-*/
-// function Field() {};
-
-// //Init field with a 16 length formation array and 16 length terrain sprite array
-// Field.prototype.initializeField = function(formation, terrain) {
-//   this.field = new Array(16);
-
-//   for (i=0; i < 16; i++) {
-//     this.field[i] = tileFactory({ entity:formation[i], tile_sprite: terrain[i] });
-//   };
-// }
-
-// //Return a tile at position xy
-// Field.prototype.getTile = function(x,y) {
-//   return this.field[x+y*4];
-// };
-
-// //Set a tile at position xy
-// Field.prototype.setTile = function(x,y,entity) {
-//   getTile(x,y).set(entity);
-// };
-
-// //Fetch entity from a tile at position xy
-// Field.prototype.getTileEntity = function(x,y,entity) { 
-//   getTile(x,y).get(entity);
-// };
-
-// //Move a unit from xy to xy
-// Field.prototype.move = function(x1,y1,x2,y2) {
-//   initial = getTile(x1,y1);
-//   target = getTile(x2,y2);
-
-//   if (target.empty) {
-//     target.set(initial.remove);
-//   }
-//   else {
-//     return "Target Occupied";
-//   };
-// };
-
-// //Fetch row x
-// Field.prototype.getRow = function(x) {
-//   return this.field.filter(function(x,i) { 
-//     var min = x*4;
-//     var max = (x+1)*4-1;
-//     return i >= min||i <= max;
-//   }); 
-// };
-
-// //Fetch column y
-// Field.prototype.getColumn = function(y) {
-//   return this.field.filter(function(y,i) {
-//     return i%4 == y
-//   });
-// };
-
-// //Return the tiles that can be selected for a particular move type
-// Field.prototype.getPossibleMoves = function(x, y, target_type) {
-//   switch (target_type) {
-//     case "melee":
-//       for (tile in this.getRow(x)) {
-//         if (tile.entity != null) {
-//           return tile;
-//         };
-//       };
-//       break;
-//     case "ranged":
-//       return this.getRow(x)
-//       break;
-//   };
-
-// };
-
-// //Field Factory
-// fieldFactory = function(options) {
-//   var field = new Field();
-
-//   field.initializeField(options.formation, options.terrain);
-
-//   return field;
-// };
+})()
