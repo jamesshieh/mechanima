@@ -1,25 +1,35 @@
-var left_formation = 
-[null,null,null,null,
-null,null,null,null,
-null,null,null,null,
-null,null,null,null];
+var friendly_formation = 
+["test","test","test","test",
+"test","test","test","test",
+"test","test","test","test",
+"test","test","test","test"];
 
-var right_formation  = 
-[null,null,null,null,
-null,null,null,null,
-null,null,null,null,
-null,null,null,null];
+var hostile_formation  = 
+["test","test","test","test",
+"test","test","test","test",
+"test","test","test","test",
+"test","test","test","test"];
 
-var left_terrain = 
+var friendly_terrain = 
 ["grass","grass","grass","grass",
 "grass","grass","grass","grass",
 "grass","grass","grass","grass",
 "grass","grass","grass","grass"];
 
-var right_terrain = 
+var hostile_terrain = 
 ["grass","grass","grass","grass",
 "grass","grass","grass","grass",
 "grass","grass","grass","grass",
 "grass","grass","grass","grass"];
 
-var battle = new battleFactory({left_formation: left_formation, right_formation: right_formation, left_terrain: left_terrain, right_terrain: right_terrain});
+var friendly_field_options = { 
+  reverse: false,
+  formation: friendly_formation,
+  terrain: friendly_terrain
+}
+
+var hostile_field_options = { 
+  reverse: false,
+  formation: hostile_formation,
+  terrain: hostile_terrain
+}
