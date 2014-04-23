@@ -18,9 +18,10 @@ Entity.prototype.alive = function(n) {
 };
 
 Entity.prototype.initialize = function() {
-  this.updateStats();
   this.current_stats = this.base_stats;
   this.current_stats.ap = 0;
+  this.updateStats();
+
 
   // this.maxHp = stats.vit * 10;
   // this.maxMp = stats.int * 10;
