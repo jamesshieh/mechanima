@@ -2,6 +2,8 @@ fieldFactory = (function() {
   var TILE_SPACING = 100;
   var TILE_SIZE = 90;
   var REVERSE_OFFSET = 500;
+  var i;
+  var offset_x, offset_y;
 
   function Tile() {
     this.contents = null;
@@ -9,7 +11,6 @@ fieldFactory = (function() {
   }
 
   Tile.prototype.activate = function() {
-    console.log("ACTIVATED");
     this.state = 2;
   }
 
@@ -57,8 +58,7 @@ fieldFactory = (function() {
   // offset_x: how far to the right to render
   // reverse:  reverse coordinates boolean
   Field.prototype.render = function(context, reverse) {
-    var offset_x, offset_y;
-    for (var i = 0; i < 16; i++) {
+    for (i = 0; i < 16; i++) {
       offset_x = i % 4 * TILE_SPACING;
       offset_y = Math.floor(i / 4) * TILE_SPACING;
 
@@ -94,7 +94,7 @@ fieldFactory = (function() {
   }
 
   Field.prototype.initialize = function(formation) {
-    for (var i = 0; i < 16; i++) {
+    for (i = 0; i < 16; i++) {
       this.tiles[i].contents = formation[i];
     }
   }
@@ -103,7 +103,7 @@ fieldFactory = (function() {
     var field = new Field();
 
     field.reverse = reverse;
-    for (var i = 0; i < 16; i++) {
+    for (i = 0; i < 16; i++) {
       field.tiles.push(new Tile());
     }
 
