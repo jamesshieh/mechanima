@@ -53,7 +53,7 @@ entityFactory = function(options) {
   // }
   entity.equipment = options.equipment;
   entity.base_stats = options.stats;
-
+  entity.abilities = options.abilities;
   entity.initialize(options);
 
   return entity;

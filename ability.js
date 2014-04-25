@@ -1,6 +1,9 @@
 abilityFactory = (function() {
   var helpers = {
     aoe: {
+      meleeSingleTarget: function(field, x, y) { 
+        return field[x+y*4];
+      },
       columnThreeCleave: function(field, x, y) {
         var valid;
         field[y+1], field[y-1];
@@ -27,9 +30,6 @@ abilityFactory = (function() {
       //Ranged hit any in a row
       rangedSingleTarget: function(field, x, y) {
         return this.get_row(field, x);
-      },
-      meleeThreeCleave: function(field, x, y) {
-        var valid;
       },
       getRow: function(field, x) {
         var row;
@@ -63,6 +63,9 @@ abilityFactory = (function() {
     },
 
     action: {
+      damage: function(dmg, target) {
+        target.damage(dmg);
+      }
 
     }
 

@@ -1,3 +1,12 @@
+attack_m = abilityFactory({
+  animation: "animation",
+  targets: "meleeSingleTarget",
+  effects: [
+    ["damage", "meleeSingleTarget"]
+  ]
+})
+
+
 var friendly_formation = 
 ["test","test","test","test",
 "test","test","test","test",
@@ -33,3 +42,4 @@ var hostile_field_options = {
   formation: hostile_formation,
   terrain: hostile_terrain
 }
+
