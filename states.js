@@ -41,7 +41,7 @@ Game.states = (function() {
   }
 
   Battle.prototype.mousemove = function(input) {
-    this.tile = this.fields.friendly.getTile(input.position);
+    this.tile = this.fields.friendly.getTile(input.position) || this.fields.hostile.getTile(input.position)
     if (this.tiles.highlighted) {
       this.tiles.highlighted.reset();
       if (this.tiles.selected) {
@@ -55,7 +55,7 @@ Game.states = (function() {
   }
 
   Battle.prototype.mousedown = function(input) {
-    this.tile = this.fields.friendly.getTile(input.position); // || this.fields.hostile.getTile(input.position)
+    this.tile = this.fields.friendly.getTile(input.position) || this.fields.hostile.getTile(input.position)
     if (this.tile) {
       this.tiles.selected = this.tile;
       this.tiles.selected.select();
@@ -63,24 +63,28 @@ Game.states = (function() {
     } else {
       return false;
     }
-    // this.fields.hostile.pingTile(input.position);
   }
 
   Battle.prototype.mouseup = function(input) {
     valid = true;
 
-    this.tile = this.fields.friendly.getTile(input.position); // || this.fields.hostile.getTile(input.position)
+    this.tile = this.fields.friendly.getTile(input.position) || this.fields.hostile.getTile(input.position)
     if (this.tile) {
       valid = true;
     } else {
       valid = false;
     }
-    this.tiles.selected.reset();
-    this.tiles.selected = null;
-    this.tiles.highlighted.highlight();
+
+    if (this.tiles.selected) {
+      this.tiles.selected.reset();
+      this.tiles.selected = null;
+
+      if (this.tiles.highlighted) {
+        this.tiles.highlighted.highlight();
+      }
+    }
 
     return valid
-    // this.fields.hostile.pingTile(input.position);
   }
 
   Battle.prototype.command = function(input) {

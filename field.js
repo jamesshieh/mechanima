@@ -79,11 +79,19 @@ fieldFactory = (function() {
       return null
     }
 
-    x = parseInt(position.x / TILE_SPACING);
+
+    if (this.reverse) {
+      console.log(position.x)
+      x = parseInt((REVERSE_OFFSET + (TILE_SPACING * 5) - position.x)/TILE_SPACING);
+      console.log(x);
+    } else {
+      x = parseInt(position.x / TILE_SPACING);
+    }
+
     y = parseInt(position.y / TILE_SPACING);
 
     // only check within possible bounds
-    if (x > 3 || y > 3) {
+    if (x > 3 || x < 0 || y > 3 || y < 0) {
       return null
     }
 
