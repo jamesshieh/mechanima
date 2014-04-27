@@ -1,13 +1,15 @@
 Game = (function() {
+  console.log("GAME MODULE LOADED");
   var PLAYBACK_JITTER = 5;
-  var FPS = 60;
+  var FPS = 10;
+  var fps_counter = document.getElementById('fps')
   var MS_FRAME_DELAY = (1000)/FPS;
 
-  var last_frame_at = Date.now();
-  var prev_delay = MS_FRAME_DELAY;
+  var last_frame_at;
   var current_frame_at;
-  var time_delta = 0;
-  var playing = true;
+
+  var playing = false;
+
   var input = {
     type: null,
     key: null,
@@ -73,29 +75,29 @@ Game = (function() {
 
   Game.prototype.start = function() {
     if (!playing) {
-      this.render();
-      playing = true;
+      playing = setInterval(this.render.bind(this), MS_FRAME_DELAY);
+
+      current_frame_at = null;
+      last_frame_at = null;
     }
   }
 
   Game.prototype.stop = function() {
     if (playing) {
-      playing = false;
+      window.clearInterval(playing);
+
+      playing = null;
     }
   }
 
   Game.prototype.render = function() {
+    current_frame_at = Date.now();
+    if (last_frame_at) {
+      fps_counter.innerHTML = "FPS: " + parseInt(1000/(current_frame_at - last_frame_at));
+    }
+    last_frame_at = current_frame_at;
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.currentState().render(this.context);
-
-    if (playing) {
-      current_frame_at = Date.now();
-      time_delta = prev_delay - (Date.now() - last_frame_at);
-      last_frame_at = current_frame_at;
-
-      prev_delay = MS_FRAME_DELAY + time_delta
-      setTimeout(this.render.bind(this), prev_delay);
-    }
   }
 
   Game.prototype.setState = function(state) {

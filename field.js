@@ -1,11 +1,13 @@
 fieldFactory = (function() {
-  var TILE_SPACING = 100;
-  var TILE_SIZE = 90;
+  console.log("FIELD MODULE LOADED");
+  var TILE_SPACING   = 100;
+  var TILE_SIZE      = 90;
   var REVERSE_OFFSET = 500;
   var i;
   var offset_x, offset_y;
 
   function Tile() {
+    console.log("new tile");
     this.contents = null;
     this.state = 0;
   }

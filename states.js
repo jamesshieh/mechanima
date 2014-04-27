@@ -3,6 +3,7 @@
 //   render:  for graphics loop
 //   command: state event handler, returns true or false if command was valid
 Game.states = (function() {
+  console.log("STATES MODULE LOADED");
   // battle state
   var valid;
   var Battle = function() {
@@ -95,7 +96,6 @@ Game.states = (function() {
   };
 
   Menu.prototype.render = function(context) {
-    console.log("1. Start Battle");
   };
 
   Menu.prototype.command = function(input) {

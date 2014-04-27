@@ -8,9 +8,21 @@
         width: 100%;
         height: 100%;
       }
+      #debugger {
+        top: 0px;
+        right: 0px;
+        position: absolute;
+        border: 1px solid black;
+        margin: 5px;
+        padding: 5px;
+      }
     </style>
   </head>
   <body>
+    <div id="debugger">
+      Debugging Info
+      <div id="fps">FPS: 0</div>
+    </div>
     <canvas id="game"></canvas>
     <script src="./test.js"></script>
     <script src="./ability.js"></script>
