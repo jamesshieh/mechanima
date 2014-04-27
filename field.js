@@ -6,13 +6,11 @@ fieldFactory = (function() {
   var i;
 
   function Tile(offset_x, offset_y) {
-    console.log("new tile");
     this.contents = null;
     this.state = 0;
+
     this.offset_x = offset_x;
     this.offset_y = offset_y;
-    console.log(offset_x);
-
   }
 
   Tile.prototype.select = function() {
@@ -70,7 +68,6 @@ fieldFactory = (function() {
   // debugging
   Field.prototype.pingTile = function(position) {
     var tile = this.getTile(position);
-    console.log((this.reversed ? "H" : "F") +   ": " + this.tiles.indexOf(tile));
   }
 
   Field.prototype.getTile = function(position) {
@@ -81,9 +78,7 @@ fieldFactory = (function() {
 
 
     if (this.reverse) {
-      console.log(position.x)
       x = parseInt((REVERSE_OFFSET + (TILE_SPACING * 5) - position.x)/TILE_SPACING);
-      console.log(x);
     } else {
       x = parseInt(position.x / TILE_SPACING);
     }
@@ -106,18 +101,14 @@ fieldFactory = (function() {
 
   function fieldFactory(options) {
     var field = new Field();
-    console.log(options)
     field.reverse = options.reverse;
     for (i = 0; i < 16; i++) {
       offset_x = i % 4 * TILE_SPACING;
       offset_y = Math.floor(i / 4) * TILE_SPACING;
 
       if (field.reverse) {
-        console.log("REVERSED");
         // reverse, then also add spacing to offset for reverse
         offset_x = REVERSE_OFFSET + (4 * TILE_SPACING) - offset_x;
-        console.log(offset_x);
-        console.log(offset_y);
       }
       field.tiles.push(new Tile(offset_x, offset_y));
     }

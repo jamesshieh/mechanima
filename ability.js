@@ -75,7 +75,6 @@ abilityFactory = (function() {
     this.effects = [];
   }
   Ability.prototype.animate = function() {
-    console.log(this.animation);
   }
 
   function abilityFactory(options) {
