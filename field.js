@@ -4,12 +4,15 @@ fieldFactory = (function() {
   var TILE_SIZE      = 90;
   var REVERSE_OFFSET = 500;
   var i;
-  var offset_x, offset_y;
 
-  function Tile() {
+  function Tile(offset_x, offset_y) {
     console.log("new tile");
     this.contents = null;
     this.state = 0;
+    this.offset_x = offset_x;
+    this.offset_y = offset_y;
+    console.log(offset_x);
+
   }
 
   Tile.prototype.select = function() {
@@ -25,21 +28,21 @@ fieldFactory = (function() {
     }
   }
 
-  Tile.prototype.render = function(context, offset_x, offset_y, reverse) {
+  Tile.prototype.render = function(context, reverse) {
     switch(this.state) {
       case 0: // default state
-        context.rect(offset_x, offset_y, TILE_SIZE, TILE_SIZE);
+        context.rect(this.offset_x, this.offset_y, TILE_SIZE, TILE_SIZE);
         context.stroke();
         break;
 
       case 1: // highlighted state
         context.fillStyle = "#FFFF00";
-        context.fillRect(offset_x, offset_y, TILE_SIZE, TILE_SIZE);
+        context.fillRect(this.offset_x, this.offset_y, TILE_SIZE, TILE_SIZE);
         break;
 
       case 2: // selected state
         context.fillStyle = "#FF0000";
-        context.fillRect(offset_x, offset_y, TILE_SIZE, TILE_SIZE);
+        context.fillRect(this.offset_x, this.offset_y, TILE_SIZE, TILE_SIZE);
         break;
 
     }
@@ -61,15 +64,7 @@ fieldFactory = (function() {
   // reverse:  reverse coordinates boolean
   Field.prototype.render = function(context, reverse) {
     for (i = 0; i < 16; i++) {
-      offset_x = i % 4 * TILE_SPACING;
-      offset_y = Math.floor(i / 4) * TILE_SPACING;
-
-      if (reverse) {
-        // reverse, then also add spacing to offset for reverse
-        offset_x = REVERSE_OFFSET + (4 * TILE_SPACING) - offset_x;
-      }
-
-      this.tiles[i].render(context, offset_x, offset_y, reverse);
+      this.tiles[i].render(context, reverse);
     }
   }
   // debugging
@@ -101,12 +96,22 @@ fieldFactory = (function() {
     }
   }
 
-  function fieldFactory(reverse) {
+  function fieldFactory(options) {
     var field = new Field();
-
-    field.reverse = reverse;
+    console.log(options)
+    field.reverse = options.reverse;
     for (i = 0; i < 16; i++) {
-      field.tiles.push(new Tile());
+      offset_x = i % 4 * TILE_SPACING;
+      offset_y = Math.floor(i / 4) * TILE_SPACING;
+
+      if (field.reverse) {
+        console.log("REVERSED");
+        // reverse, then also add spacing to offset for reverse
+        offset_x = REVERSE_OFFSET + (4 * TILE_SPACING) - offset_x;
+        console.log(offset_x);
+        console.log(offset_y);
+      }
+      field.tiles.push(new Tile(offset_x, offset_y));
     }
 
     return field;

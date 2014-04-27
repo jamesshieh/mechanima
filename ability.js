@@ -95,12 +95,12 @@ abilityFactory = (function() {
     ability.targets = helpers.targets[options.aoe];
     for (var i = 0; i < options.effects.length; i++) {
       ability.effects.push({
-        aoe: options.aoe[0],
-        action: options.action[1]
+        aoe: options.effects[0],
+        action: options.effects[1]
       });
     }
 
     return ability;
   }
   return abilityFactory;
-})();
+})(); 
