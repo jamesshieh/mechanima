@@ -14,7 +14,7 @@ Game.states = (function() {
 
     this.tile = null;
     this.tiles = {
-      activated: null,
+      selected: null,
       highlighted: null
     }
   };
@@ -44,8 +44,8 @@ Game.states = (function() {
     this.tile = this.fields.friendly.getTile(input.position);
     if (this.tiles.highlighted) {
       this.tiles.highlighted.reset();
-      if (this.tiles.activated) {
-        this.tiles.activated.activate();
+      if (this.tiles.selected) {
+        this.tiles.selected.select();
       }
     }
     if (this.tile) {
@@ -57,8 +57,8 @@ Game.states = (function() {
   Battle.prototype.mousedown = function(input) {
     this.tile = this.fields.friendly.getTile(input.position); // || this.fields.hostile.getTile(input.position)
     if (this.tile) {
-      this.tiles.activated = this.tile;
-      this.tiles.activated.activate();
+      this.tiles.selected = this.tile;
+      this.tiles.selected.select();
       return true;
     } else {
       return false;
@@ -75,8 +75,8 @@ Game.states = (function() {
     } else {
       valid = false;
     }
-    this.tiles.activated.reset();
-    this.tiles.activated = null;
+    this.tiles.selected.reset();
+    this.tiles.selected = null;
     this.tiles.highlighted.highlight();
 
     return valid

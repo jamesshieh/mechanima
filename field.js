@@ -12,7 +12,7 @@ fieldFactory = (function() {
     this.state = 0;
   }
 
-  Tile.prototype.activate = function() {
+  Tile.prototype.select = function() {
     this.state = 2;
   }
 
@@ -37,7 +37,7 @@ fieldFactory = (function() {
         context.fillRect(offset_x, offset_y, TILE_SIZE, TILE_SIZE);
         break;
 
-      case 2: // activated state
+      case 2: // selected state
         context.fillStyle = "#FF0000";
         context.fillRect(offset_x, offset_y, TILE_SIZE, TILE_SIZE);
         break;

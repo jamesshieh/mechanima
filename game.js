@@ -1,7 +1,7 @@
 Game = (function() {
   console.log("GAME MODULE LOADED");
   var PLAYBACK_JITTER = 5;
-  var FPS = 10;
+  var FPS = 5;
   var fps_counter = document.getElementById('fps')
   var MS_FRAME_DELAY = (1000)/FPS;
 
