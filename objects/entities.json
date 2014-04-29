@@ -1,0 +1,25 @@
+{
+  "id": "warrior",
+  "equipment": {
+    "weapon": null,
+    "head": null,
+    "armor": null
+  },
+  "stats": [5,5,5,5],
+  "abilities": {
+    "move": {
+      "animation": "walk",
+      "targets": "emptyTiles",
+      "effects": [
+        ["meleeSingleTarget", "move"]
+      ]
+    },
+    "attack": {
+      "animation": "attack",
+      "targets": "meleeSingleTarget",
+      "effects": [
+        ["meleeSingleTarget", "damage"]
+      ]
+    }
+  }
+}
