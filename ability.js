@@ -43,6 +43,20 @@ abilityFactory = (function() {
           };
         };
         return valid;
+      },
+      //All occupied Tiles
+      occupiedTiles: function(field) {
+        var valid = [];
+        for (i in field.tiles) {
+          if (!field.tiles[i].empty()) {
+            valid.push(field.tiles[i]);
+          };
+        };
+        return valid;
+      },
+      //All Tiles
+      allTiles: function(field) {
+        return field.tiles;
       }
     },
 
