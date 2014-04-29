@@ -17,7 +17,7 @@ Game = (function() {
       x: null,
       y: null
     }
-  }
+  };
 
   // function clearInput() {
   //   input.type = null;
@@ -33,7 +33,7 @@ Game = (function() {
     input.position.y = e.pageY
 
     return input;
-  }
+  };
 
   function normalizeKey(key) {
     switch (key) {
@@ -55,7 +55,7 @@ Game = (function() {
       default:
         return String.fromCharCode(key);
     }
-  }
+  };
 
 
   function Game() {
@@ -67,11 +67,11 @@ Game = (function() {
     this.canvas.height = window.innerHeight;
 
     this.context = this.canvas.getContext('2d');
-  }
+  };
 
   Game.prototype.update = function() {
     this.currentState().update();
-  }
+  };
 
   Game.prototype.start = function() {
     if (!playing) {
@@ -80,7 +80,7 @@ Game = (function() {
       current_frame_at = null;
       last_frame_at = null;
     }
-  }
+  };
 
   Game.prototype.stop = function() {
     if (playing) {
@@ -88,7 +88,7 @@ Game = (function() {
 
       playing = null;
     }
-  }
+  };
 
   Game.prototype.render = function() {
     current_frame_at = Date.now();
@@ -98,17 +98,17 @@ Game = (function() {
     last_frame_at = current_frame_at;
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.currentState().render(this.context);
-  }
+  };
 
   Game.prototype.setState = function(state) {
     console.log("switching states from " + this.state + " to " + state);
     this.state = state;
     this.render();
-  }
+  };
 
   Game.prototype.currentState = function() {
     return this.states[this.state];
-  }
+  };
 
   // all states share event listeners
   // events are transformed into an input object for a shared input api
@@ -118,7 +118,7 @@ Game = (function() {
     if (this.currentState().command(input)) {
       this.update();
     }
-  }
+  };
 
   Game.prototype.installEventListeners = function() {
     document.addEventListener("keydown", function(e) {
@@ -136,6 +136,6 @@ Game = (function() {
     document.addEventListener("mousemove", function(e) {
       this.command(normalizeInput(e, 'mousemove'));
     }.bind(this));
-  }
+  };
   return new Game();
 })();
