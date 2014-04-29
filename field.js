@@ -5,17 +5,18 @@ fieldFactory = (function() {
   var REVERSE_OFFSET = 500;
   var i;
 
-  function Tile(offset_x, offset_y) {
-    this.contents = null;
+  function Tile(offset_x, offset_y, contents, terrain) {
+    this.contents = contents;
+    this.terrain = terrain;
     this.state = 0;
 
     this.offset_x = offset_x;
     this.offset_y = offset_y;
-  }
+  };
 
   Tile.prototype.select = function() {
     this.state = 2;
-  }
+  };
 
   Tile.prototype.highlight = function() {
     if (this.state < 1) {
@@ -23,8 +24,8 @@ fieldFactory = (function() {
       return true
     } else {
       return false
-    }
-  }
+    };
+  };
 
   Tile.prototype.render = function(context, reverse) {
     switch(this.state) {
@@ -43,20 +44,25 @@ fieldFactory = (function() {
         context.fillRect(this.offset_x, this.offset_y, TILE_SIZE, TILE_SIZE);
         break;
 
-    }
-  }
+    };
+  };
 
   Tile.prototype.clear = function() {
     this.contents = null;
-  }
+  };
 
   Tile.prototype.reset = function() {
     this.state = 0;
-  }
+  };
+
+  Tile.prototype.empty = function() {
+    console.log(this.contents == null);
+    return this.contents == null;
+  };
 
   function Field() {
     this.tiles = [];
-  }
+  };
 
   // offset_x: how far to the right to render
   // reverse:  reverse coordinates boolean
@@ -91,13 +97,13 @@ fieldFactory = (function() {
     }
 
     return this.tiles[x + (y * 4)];
-  }
+  };
 
   Field.prototype.initialize = function(formation) {
     for (i = 0; i < 16; i++) {
       this.tiles[i].contents = formation[i];
-    }
-  }
+    };
+  };
 
   function fieldFactory(options) {
     var field = new Field();
@@ -110,11 +116,11 @@ fieldFactory = (function() {
         // reverse, then also add spacing to offset for reverse
         offset_x = REVERSE_OFFSET + (4 * TILE_SPACING) - offset_x;
       }
-      field.tiles.push(new Tile(offset_x, offset_y));
+      field.tiles.push(new Tile(offset_x, offset_y, options.formation[i], options.terrain[i]));
     }
 
     return field;
-  }
+  };
 
   return fieldFactory;
 })()

@@ -2,14 +2,14 @@ abilityFactory = (function() {
   var helpers = {
     aoe: {
       meleeSingleTarget: function(field, x, y) { 
-        return field[x+y*4];
+        return field.tiles[x+y*4];
       },
       columnThreeCleave: function(field, x, y) {
         var valid;
-        field[y+1], field[y-1];
+        field.tiles[y+1], field.tiles[y], field.tiles[y-1];
       },
       fullRowPierce: function(field, x, y) {
-        return helpers.targeting.getRow(field, x); 
+        return helpers.getRow(field, x); 
       }
       
     },
@@ -17,11 +17,14 @@ abilityFactory = (function() {
     targets: {
       //takes in opposite field and target x y
       meleeSingleTarget: function(field, x, y) { 
-        var valid;
-        var targets = this.get_row(field, x);
-        for (tile in targets) {
-          valid.push(tile);
-          if (!tile.empty) {
+        var valid = [];
+        console.log(this.helpers);
+        var targets = this.helpers.getRow(field, x);
+        console.log(targets);
+        for (i in targets) {
+          console.log(targets[i]);
+          valid.push(targets[i]);
+          if (!targets[i].empty()) {
             break;
           }
         };
@@ -29,47 +32,61 @@ abilityFactory = (function() {
       },
       //Ranged hit any in a row
       rangedSingleTarget: function(field, x, y) {
-        return this.get_row(field, x);
+        return this.helpers.getRow(field, x);
       },
-      getRow: function(field, x) {
-        var row;
-        switch (x) 
-        {
-        case 1:
-          row = field.tiles.slice(0,3);
-          break;
-        case 2:
-          row = field.tiles.slice(4,7);
-          break;
-        case 3:
-          row = field.tiles.slice(8,11);
-          break;
-        case 4:
-          row = field.tiles.slice(12,15);
-          break;
-        };
-        return row;
-      },
-      getColumn: function(field, y) {
-        var column;
-        for (var i;i < field.tiles.length;i++) {
-          if (i % 4 == y) {
-            column.push(field.tiles[i]);
+      //All Empty Tiles
+      emptyTiles: function(field) {
+        var valid = [];
+        for (i in field.tiles) {
+          if (field.tiles[i].empty()) {
+            valid.push(field.tiles[i]);
           };
         };
-        return column;
+        return valid;
       }
-
     },
 
     action: {
       damage: function(dmg, target) {
         target.damage(dmg);
+      },
+      move: function(field) {
+
       }
-
     }
+  };
 
-  }
+  var helpers2 = {
+    getRow: function(field, x) {
+      var row;
+      switch (x) 
+      {
+      case 0:
+        row = field.tiles.slice(0,4);
+        break;
+      case 1:
+        row = field.tiles.slice(4,8);
+        break;
+      case 2:
+        row = field.tiles.slice(8,12);
+        break;
+      case 3:
+        row = field.tiles.slice(12,16);
+        break;
+      };
+      return row;
+    },
+    getColumn: function(field, y) {
+      var column;
+      for (var i;i < field.tiles.length;i++) {
+        if (i % 4 == y) {
+          column.push(field.tiles[i]);
+        };
+      };
+      return column;
+    }
+  };
+  
 
   function Ability() {
     this.effects = [];
@@ -79,6 +96,7 @@ abilityFactory = (function() {
 
   function abilityFactory(options) {
     var ability = new Ability();
+    console.log("INITIALIZING ABILITY");
 
     // abilities options
     // {
@@ -90,14 +108,15 @@ abilityFactory = (function() {
     //     ...
     //   ]
     // }
-    ability.animation = options.animation
-    ability.targets = helpers.targets[options.aoe];
+    ability.animation = options.animation;
+    ability.targets = helpers.targets[options.targets];
+    ability.helpers = helpers2;
     for (var i = 0; i < options.effects.length; i++) {
       ability.effects.push({
         aoe: options.effects[0],
         action: options.effects[1]
       });
-    }
+    };
 
     return ability;
   }

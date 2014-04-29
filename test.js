@@ -1,16 +1,16 @@
-// attack_m = abilityFactory({
-//   animation: "animation",
-//   targets: "meleeSingleTarget",
-//   effects: [
-//     ["damage", "meleeSingleTarget"]
-//   ]
-// })
+ move = abilityFactory({
+   animation: "animation",
+   targets: "emptyTiles",
+   effects: [
+     ["meleeSingleTarget", "move"]
+   ]
+ });
 
 
 var friendly_formation = 
-["test","test","test","test",
-"test","test","test","test",
-"test","test","test","test",
+[null,"test","test","test",
+null,"test","test","test",
+"test",null,"test","test",
 "test","test","test","test"];
 
 var hostile_formation  = 
