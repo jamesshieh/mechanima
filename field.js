@@ -60,7 +60,6 @@ fieldFactory = (function() {
   };
 
   Tile.prototype.empty = function() {
-    console.log(this.contents == null);
     return this.contents == null;
   };
 

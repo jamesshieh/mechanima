@@ -2,7 +2,7 @@ abilityFactory = (function() {
   var helpers = {
     aoe: {
       meleeSingleTarget: function(field, x, y) { 
-        return this.targetingHelpers.getTile(field, x, y);
+        return targetingHelpers.getTile(field, x, y);
       },
       columnThreeCleave: function(field, x, y) {
         var valid;
@@ -33,15 +33,15 @@ abilityFactory = (function() {
       },
       //All Empty Tiles
       emptyTiles: function(field, x, y) {
-        return getEmpty(field, x, y);
+        return this.targetingHelpers.getEmpty(field, x, y);
       },
       //All occupied Tiles
       occupiedTiles: function(field, x, y) {
-        return getOccupied(field, x, y);
+        return this.targetingHelpers.getOccupied(field, x, y);
       },
       //All Tiles
       allTiles: function(field, x, y) {
-        return getAll(field, x, y);
+        return this.targetingHelpers.getAll(field, x, y);
       }
     },
 
@@ -49,9 +49,10 @@ abilityFactory = (function() {
       damage: function(dmg, target) {
         target.damage(dmg);
       },
-      move: function(field, aoe) {
-        var target = aoe(field, x, y);
-        if (target.empty) {
+      move: function(field, aoe, cx, cy, tx, ty) {
+        var entity = targetingHelpers.getTile(field, cx, cy);
+        var target = aoe(field, tx, ty);
+        if (target.empty()) {
           target.set(entity);
           return true;
         };
@@ -123,9 +124,9 @@ abilityFactory = (function() {
   Ability.prototype.animate = function() {
   };
 
-  Ability.prototype.execute = function(field, c_x, c_y, t_x, t_y) {
+  Ability.prototype.execute = function(field, cx, cy, tx, ty) {
     for (var i = 0; i < this.effects.length; i++) {
-      this.effects[i].action(field, this.effects[i].aoe, c_x, c_t, t_x, t_y);
+      (this.effects[i].action(field, this.effects[i].aoe, cx, cy, tx, ty)) ? console.log("Command Executed") : console.log("Command Failure");
     };
   };
 

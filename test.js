@@ -8,10 +8,10 @@
 
 
 var friendly_formation = 
-[null,"test","test","test",
-null,"test","test","test",
-"test",null,"test","test",
-"test","test","test","test"];
+[null,"test1","test2","test3",
+null,"test4","test5","test6",
+null,null,"test7","test8",
+null,null,null,null];
 
 var hostile_formation  = 
 ["test","test","test","test",
