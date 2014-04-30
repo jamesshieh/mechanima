@@ -51,6 +51,10 @@ fieldFactory = (function() {
     this.contents = null;
   };
 
+  Tile.prototype.set = function(entity) {
+    this.contents = entity;
+  };
+
   Tile.prototype.reset = function() {
     this.state = 0;
   };
