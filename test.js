@@ -6,7 +6,14 @@
    ]
  });
 
-
+ attack =  abilityFactory({
+   animation: "animation",
+   targets: "meleeSingleTarget",
+   effects: [
+     ["meleeSingleTarget", "damage"]
+   ]
+ });
+ 
 var friendly_formation = 
 [null,"test1","test2","test3",
 null,"test4","test5","test6",
