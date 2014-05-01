@@ -1,24 +1,24 @@
 abilityFactory = (function() {
   var helpers = {
     aoe: {
-      meleeSingleTarget: function(field, x, y) { 
-        return targetingHelpers.getTile(field, x, y);
+      meleeSingleTarget: function(field, cord) { 
+        return targetingHelpers.getTile(field, cord);
       },
-      columnThreeCleave: function(field, x, y) {
+      columnThreeCleave: function(field, cord) {
         var valid;
-        field.tiles[y+1], field.tiles[y], field.tiles[y-1];
+        field.tiles[cord + 4], field.tiles[cord], field.tiles[cord - 4];
       },
-      fullRowPierce: function(field, x, y) {
-        return targetingHelpers.getRow(field, x, y); 
+      fullRowPierce: function(field, cord) {
+        return targetingHelpers.getRow(field, cord); 
       }
       
     },
 
     targets: {
       //takes in opposite field and target x y
-      meleeSingleTarget: function(field, x, y) { 
+      meleeSingleTarget: function(field, cord) { 
         var valid = [];
-        var targets = this.targetingHelpers.getRow(field, x, y);
+        var targets = this.targetingHelpers.getRow(field, cord);
         for (var i = 0; i < targets.length; i++) {
           valid.push(targets[i]);
           if (!targets[i].empty()) {
@@ -28,30 +28,30 @@ abilityFactory = (function() {
         return valid;
       },
       //Ranged hit any in a row
-      rangedSingleTarget: function(field, x, y) {
-        return this.targetingHelpers.getRow(field, x, y);
+      rangedSingleTarget: function(field, cord) {
+        return this.targetingHelpers.getRow(field, cord);
       },
       //All Empty Tiles
-      emptyTiles: function(field, x, y) {
-        return this.targetingHelpers.getEmpty(field, x, y);
+      emptyTiles: function(field, cord) {
+        return this.targetingHelpers.getEmpty(field, cord);
       },
       //All occupied Tiles
-      occupiedTiles: function(field, x, y) {
-        return this.targetingHelpers.getOccupied(field, x, y);
+      occupiedTiles: function(field, cord) {
+        return this.targetingHelpers.getOccupied(field, cord);
       },
       //All Tiles
-      allTiles: function(field, x, y) {
-        return this.targetingHelpers.getAll(field, x, y);
+      allTiles: function(field, cord) {
+        return this.targetingHelpers.getAll(field, cord);
       }
     },
 
     action: {
-      damage: function(dmg, target) {
-        target.damage(dmg);
+      damage: function(field, aoe, options) {
+        targetingHelpers.getTile(field, options.ccord).damage(options.dmg);
       },
-      move: function(field, aoe, cx, cy, tx, ty) {
-        var entity = targetingHelpers.getTile(field, cx, cy);
-        var target = aoe(field, tx, ty);
+      move: function(field, aoe, options) {
+        var entity = targetingHelpers.getTile(field, options.ccord);
+        var target = aoe(field, options.tcord);
         if (target.empty()) {
           target.set(entity);
           return true;
@@ -62,9 +62,9 @@ abilityFactory = (function() {
   };
 
   var targetingHelpers = {
-    getRow: function(field, x, y) {
+    getRow: function(field, cord) {
       var row;
-      switch (x) 
+      switch (Math.floor(cord/4)) 
       {
       case 0:
         row = field.tiles.slice(0,4);
@@ -81,22 +81,22 @@ abilityFactory = (function() {
       };
       return row;
     },
-    getColumn: function(field, x, y) {
+    getColumn: function(field, cord) {
       var column;
       for (var i;i < field.tiles.length;i++) {
-        if (i % 4 == y) {
+        if (i % 4 == cord % 4) {
           column.push(field.tiles[i]);
         };
       };
       return column;
     },
-    getTile: function(field, x, y) {
-      return field.tiles[x+y*4];
+    getTile: function(field, cord) {
+      return field.tiles[cord];
     },
-    getAll: function(field, x, y) {
+    getAll: function(field, cord) {
       return field.tiles;
     },
-    getEmpty: function(field, x, y) {
+    getEmpty: function(field, cord) {
       var valid = [];
       for (var i = 0; i < field.tiles.length; i++) {
         if (field.tiles[i].empty()) {
@@ -105,7 +105,7 @@ abilityFactory = (function() {
       };
       return valid;
     },
-    getOccupied: function(field, x, y) {
+    getOccupied: function(field, cord) {
       var valid = [];
         for (var i = 0; i < field.tiles.length; i++) {
           if (!field.tiles[i].empty()) {
@@ -124,9 +124,9 @@ abilityFactory = (function() {
   Ability.prototype.animate = function() {
   };
 
-  Ability.prototype.execute = function(field, cx, cy, tx, ty) {
+  Ability.prototype.execute = function(field, ccord, tcord) {
     for (var i = 0; i < this.effects.length; i++) {
-      (this.effects[i].action(field, this.effects[i].aoe, cx, cy, tx, ty)) ? console.log("Command Executed") : console.log("Command Failure");
+      (this.effects[i].action(field, this.effects[i].aoe, ccord, tcord)) ? console.log("Command Executed") : console.log("Command Failure");
     };
   };
 
