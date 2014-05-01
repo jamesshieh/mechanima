@@ -32,25 +32,4 @@ Game.states = (function(states) {
 
   states.overworld = new Overworld;
   return states;
-
-
-  var OverworldArea = function(options) {
-    this.length = options.length;
-    this.width  = options.width;
-  }
-
-  OverworldArea.prototype.link = function(area, dir) {
-
-  }
-
-  var OverworldEntity = function() {
-
-  }
-
-  var Party = function() {
-
-  }
-  // var OverworldEntity = function() {
-
-  // }
 })(Game.states || {})

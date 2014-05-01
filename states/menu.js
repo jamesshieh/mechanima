@@ -1,16 +1,16 @@
 Game.states = (function(states) {
   var valid;
-  var Menu = function() {
+  var MenuState = function() {
 
   };
 
-  Menu.prototype.update = function() {
+  MenuState.prototype.update = function() {
   };
 
-  Menu.prototype.render = function(context) {
+  MenuState.prototype.render = function(context) {
   };
 
-  Menu.prototype.command = function(input) {
+  MenuState.prototype.command = function(input) {
     valid = true;
 
     switch(input.key) {
@@ -27,7 +27,7 @@ Game.states = (function(states) {
     return valid;
   }
 
-  states.menu = new Menu;
+  states.menu = new MenuState;
   return states;
 })(Game.states || {})
   

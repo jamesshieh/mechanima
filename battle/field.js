@@ -1,4 +1,4 @@
-fieldFactory = (function() {
+Battle.fieldFactory = (function() {
   console.log("FIELD MODULE LOADED");
   var TILE_SPACING   = 100;
   var TILE_SIZE      = 90;

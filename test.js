@@ -1,4 +1,4 @@
- move = abilityFactory({
+ move = Battle.abilityFactory({
    animation: "animation",
    targets: "emptyTiles",
    effects: [

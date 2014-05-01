@@ -1,11 +1,6 @@
 Game.states = (function(states) {
   var valid;
-  var Battle = function() {
-    this.fields = {
-      friendly: fieldFactory(friendly_field_options),
-      hostile: fieldFactory(hostile_field_options)
-    }
-
+  var BattleState = function() {
     this.tile = null;
     this.tiles = {
       selected: null,
@@ -13,15 +8,22 @@ Game.states = (function(states) {
     }
   };
 
-  Battle.prototype.update = function() {
+  BattleState.prototype.initialize = function() {
+    this.fields = {
+      friendly: Battle.fieldFactory(friendly_field_options),
+      hostile: Battle.fieldFactory(hostile_field_options)
+    }
+  }
+
+  BattleState.prototype.update = function() {
   };
 
-  Battle.prototype.render = function(context) {
+  BattleState.prototype.render = function(context) {
     this.fields.friendly.render(context, false);
     this.fields.hostile.render(context, true);
   };
 
-  Battle.prototype.keydown = function(input) {
+  BattleState.prototype.keydown = function(input) {
     valid = true;
 
     switch(input.key) {
@@ -37,7 +39,7 @@ Game.states = (function(states) {
     return valid;
   }
 
-  Battle.prototype.mousemove = function(input) {
+  BattleState.prototype.mousemove = function(input) {
     this.tile = this.fields.friendly.getTile(input.position) || this.fields.hostile.getTile(input.position)
     if (this.tiles.highlighted) {
       this.tiles.highlighted.reset();
@@ -51,7 +53,7 @@ Game.states = (function(states) {
     }
   }
 
-  Battle.prototype.mousedown = function(input) {
+  BattleState.prototype.mousedown = function(input) {
     this.tile = this.fields.friendly.getTile(input.position) || this.fields.hostile.getTile(input.position)
     if (this.tile) {
       this.tiles.selected = this.tile;
@@ -62,7 +64,7 @@ Game.states = (function(states) {
     }
   }
 
-  Battle.prototype.mouseup = function(input) {
+  BattleState.prototype.mouseup = function(input) {
     valid = true;
 
     this.tile = this.fields.friendly.getTile(input.position) || this.fields.hostile.getTile(input.position)
@@ -84,12 +86,12 @@ Game.states = (function(states) {
     return valid
   }
 
-  Battle.prototype.command = function(input) {
+  BattleState.prototype.command = function(input) {
     this.tile = null;
     return this[input.type] && this[input.type](input);
   }
 
-  states.battle = new Battle;
+  states.battle = new BattleState;
   return states;
 })(Game.states || {})
   
