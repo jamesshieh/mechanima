@@ -1,4 +1,4 @@
-abilityFactory = (function() {
+Battle.abilityFactory = (function() {
   var helpers = {
     aoe: {
       meleeSingleTarget: function(field, cord) { 
@@ -156,5 +156,6 @@ abilityFactory = (function() {
 
     return ability;
   }
+  
   return abilityFactory;
 })(); 

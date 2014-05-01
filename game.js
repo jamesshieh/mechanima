@@ -139,3 +139,5 @@ Game = (function() {
   };
   return new Game();
 })();
+
+Battle = {};
