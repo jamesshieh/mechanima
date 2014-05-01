@@ -1,10 +1,4 @@
-// game states
-//   update:  for play loop, runs upon valid command
-//   render:  for graphics loop
-//   command: state event handler, returns true or false if command was valid
-Game.states = (function() {
-  console.log("STATES MODULE LOADED");
-  // battle state
+Game.states = (function(states) {
   var valid;
   var Battle = function() {
     this.fields = {
@@ -33,6 +27,9 @@ Game.states = (function() {
     switch(input.key) {
       case "2":
         Game.setState("menu");
+        break;
+      case "3":
+        Game.setState("overworld");
         break;
       default:
         valid = false;
@@ -91,33 +88,8 @@ Game.states = (function() {
     this.tile = null;
     return this[input.type] && this[input.type](input);
   }
-  // menu state
-  var Menu = function() {
 
-  };
-
-  Menu.prototype.update = function() {
-  };
-
-  Menu.prototype.render = function(context) {
-  };
-
-  Menu.prototype.command = function(input) {
-    valid = true;
-
-    switch(input.key) {
-      case "1":
-        Game.setState("battle");
-        break;
-      default:
-        valid = false;
-    }
-
-    return valid;
-  }
-
-  return {
-    battle: new Battle,
-    menu: new Menu
-  }
-})()
+  states.battle = new Battle;
+  return states;
+})(Game.states || {})
+  
