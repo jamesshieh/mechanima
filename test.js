@@ -1,18 +1,20 @@
- move = Battle.abilityFactory({
-   animation: "animation",
-   targets: "emptyTiles",
-   effects: [
-     ["meleeSingleTarget", "move"]
-   ]
- });
+move = Battle.abilityFactory({
+  animation: "animation",
+  is_friendly: true,
+  targets: "emptyTiles",
+  effects: [
+    ["meleeSingleTarget", "move"]
+  ]
+});
 
- attack =  abilityFactory({
-   animation: "animation",
-   targets: "meleeSingleTarget",
-   effects: [
-     ["meleeSingleTarget", "damage"]
-   ]
- });
+attack =  Battle.abilityFactory({
+  animation: "animation",
+  is_friendly: false,
+  targets: "meleeSingleTarget",
+    effects: [
+    ["meleeSingleTarget", "damage"]
+  ]
+});
  
 var friendly_formation = 
 [null,"test1","test2","test3",
