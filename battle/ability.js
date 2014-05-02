@@ -47,11 +47,11 @@ Battle.abilityFactory = (function() {
 
     action: {
       damage: function(field, aoe, options) {
-        targetingHelpers.getTile(field, options.ccord).damage(options.dmg);
+        targetingHelpers.getTile(field, options.c_cord).damage(options.dmg);
       },
-      move: function(field, aoe, options) {
-        var entity = targetingHelpers.getTile(field, options.ccord);
-        var target = aoe(field, options.tcord);
+      move: function(field, aoe, c_cord, t_cord) {
+        var entity = targetingHelpers.getTile(field, c_cord);
+        var target = aoe(field, t_cord);
         if (target.empty()) {
           target.set(entity);
           return true;
@@ -124,10 +124,17 @@ Battle.abilityFactory = (function() {
   Ability.prototype.animate = function() {
   };
 
-  Ability.prototype.execute = function(field, ccord, tcord) {
+  Ability.prototype.execute = function(fields, c_cord, t_cord) {
+    var field = (this.is_friendly) ? fields.friendly : fields.hostile;
     for (var i = 0; i < this.effects.length; i++) {
-      (this.effects[i].action(field, this.effects[i].aoe, ccord, tcord)) ? console.log("Command Executed") : console.log("Command Failure");
+      (this.effects[i].action(field, this.effects[i].aoe, c_cord, t_cord)) ? console.log("Command Executed") : console.log("Command Failure");
     };
+  };
+
+  Ability.prototype.getTargets = function(fields, cord) {
+    var field = (this.is_friendly) ? fields.friendly : fields.hostile;
+    console.log(this.targets(field, cord))
+    return this.targets(field, cord);
   };
 
   function abilityFactory(options) {
@@ -147,6 +154,7 @@ Battle.abilityFactory = (function() {
     ability.animation = options.animation;
     ability.targets = helpers.targets[options.targets];
     ability.targetingHelpers = targetingHelpers;
+    ability.is_friendly = options.is_friendly;
     for (var i = 0; i < options.effects.length; i++) {
       ability.effects.push({
         aoe: helpers.aoe[options.effects[i][0]],
